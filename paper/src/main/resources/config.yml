@@ -1,0 +1,28 @@
+settings:
+  language-file: "locale-en.yml"
+  # Your bot token.
+  token: " "
+  guild-settings:
+    # The guild ID of your server.
+    guild-id: " "
+    # The main chat channel you want messages to be sent in.
+    chat-channel: " "
+    # Choose whether to send player advancements.
+    send-player-advancements: true
+    # Choose whether to send death announcements.
+    send-death-announcements: true
+
+    start-up-message: ":green_circle: Server has started up."
+    shut-down-message: ":red_circle: Server has shut down."
+
+    # Choose whether to start or stop quietly.
+    # i.e no shutdown/startup message
+    # Defaults to true
+    start-message: true
+    stop-message: true
+
+  chat-settings:
+    # What a message from someone on Discord will look like in-game
+    discord-to-minecraft: "<gray>[</gray><red>D</red><gray>]</gray> <reset>%color%%group% %username% <dark_gray>|</dark_gray> %message%"
+    # What a message from someone on Minecraft will look like on Discord.
+    minecraft-to-discord: "%group% %username% | %message%"

@@ -1,0 +1,16 @@
+name: Parcord
+main: "net.parchat.parcord.paper.Parcord"
+version: ${version}
+api-version: 1.18
+description: ${description}
+author: "Ryder Belserion"
+website: "https://github.com/Parchat/Parcord/"
+
+commands: {}
+
+libraries:
+  - com.google.inject:guice:5.1.0
+  - commons-validator:commons-validator:1.7
+  - ch.qos.logback:logback-classic:1.2.11
+  - net.dv8tion:JDA:5.0.0-alpha.13
+  - commons-cli:commons-cli:1.5.0
