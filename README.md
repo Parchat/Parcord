@@ -34,4 +34,4 @@ In Progress.
 Fork the project & open a pull request.
 
 #### Compiling
-Clone the project & run the shadowJar task.
+Clone the project & run the reobf task.
