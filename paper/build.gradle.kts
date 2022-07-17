@@ -15,7 +15,7 @@ repositories {
 }
 
 dependencies {
-    //implementation(project(":api"))
+    implementation("org.bstats:bstats-bukkit:3.0.0")
 
     compileOnly("io.papermc.paper:paper-api:1.19-R0.1-SNAPSHOT")
 
@@ -26,6 +26,8 @@ dependencies {
 
 tasks {
     shadowJar {
+        relocate("org.bstats", "net.parchat.libs.bstats")
+
         archiveFileName.set("${rootProject.name}-v${project.version}.jar")
     }
 

@@ -1,27 +1,33 @@
 package net.parchat.parcord.paper.handlers.modules;
 
 import com.google.inject.Inject;
-import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
-import net.dv8tion.jda.api.utils.cache.CacheFlag;
+import com.google.inject.Singleton;
+import net.parchat.parcord.paper.Parcord;
 import net.parchat.parcord.paper.api.config.ConfigFile;
 import net.parchat.parcord.paper.handlers.ModuleHandler;
-import javax.security.auth.login.LoginException;
-import java.util.Objects;
+import net.parchat.parcord.paper.handlers.discord.JDAManager;
 
+import javax.security.auth.login.LoginException;
+
+@Singleton
+@SuppressWarnings("all")
 public class JDAModule implements ModuleHandler {
 
     @Inject private ConfigFile configFile;
 
-    private JDA jda;
+    @Inject private JDAManager jdaManager;
+    @Inject private Parcord parcord;
 
     @Override
-    public void enable() throws LoginException, InterruptedException {
-        jda = JDABuilder.createDefault(configFile.getFile().getString("settings.token"))
-                .enableCache(CacheFlag.EMOJI)
-                .disableCache(CacheFlag.MEMBER_OVERRIDES, CacheFlag.VOICE_STATE)
-                .setContextEnabled(false)
-                .build().awaitReady();
+    public void enable() {
+
+        try {
+            jdaManager.create();
+        } catch (Exception e) {
+            parcord.getLogger().severe("I don't have a valid token or no token at all.");
+            parcord.getLogger().severe("Please go to your config.yml & add a valid token!");
+            return;
+        }
 
         boolean toggle = configFile.getFile().getBoolean("settings.guild-settings.start-message");
 
@@ -31,11 +37,7 @@ public class JDAModule implements ModuleHandler {
 
         String guildID = configFile.getFile().getString("settings.guild-settings.guild-id");
 
-        if (toggle) {
-            if (guildID != null & guildChannel != null && localeStartUp != null) {
-                Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(guildID)).getTextChannelById(guildChannel)).sendMessage(localeStartUp).queue();
-            }
-        }
+        if (toggle) sendMsg(guildID, guildChannel, localeStartUp);
     }
 
     @Override
@@ -48,16 +50,18 @@ public class JDAModule implements ModuleHandler {
 
         String guildID = configFile.getFile().getString("settings.guild-settings.guild-id");
 
-        if (toggle) {
-            if (guildID != null & guildChannel != null && localeShutDown != null) {
-                Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(guildID)).getTextChannelById(guildChannel)).sendMessage(localeShutDown).queue();
-            }
-        }
+        if (toggle) sendMsg(guildID, guildChannel, localeShutDown);
 
-        jda.shutdown();
+        jdaManager.getJDA().shutdown();
     }
 
-    public JDA getJda() {
-        return jda;
+    private void sendMsg(String guildID, String guildChannel, String localeMessage) {
+        if (guildID == null || guildChannel == null || localeMessage == null || guildID.isBlank() || guildChannel.isBlank() || localeMessage.isBlank()) {
+            parcord.getLogger().warning("One of your config values is null or has nothing provided so it will not send.");
+            parcord.getLogger().warning("Please check your config.yml!");
+            return;
+        }
+
+        jdaManager.getJDA().getGuildById(guildID).getTextChannelById(guildChannel).sendMessage(localeMessage).queue();
     }
 }

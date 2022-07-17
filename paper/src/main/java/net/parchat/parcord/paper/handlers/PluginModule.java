@@ -8,6 +8,8 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.name.Names;
 import net.parchat.parcord.paper.api.config.ConfigFile;
+import net.parchat.parcord.paper.handlers.discord.JDAManager;
+
 import javax.annotation.Nonnull;
 import java.io.File;
 
@@ -17,15 +19,18 @@ public class PluginModule extends AbstractModule {
 
     private final ParManager parManager;
 
+    private final JDAManager jdaManager;
+
     private final FileManager fileManager;
 
     private final ConfigFile configFile;
 
-    public PluginModule(Parcord plugin, ParManager parManager, FileManager fileManager, ConfigFile configFile) {
+    public PluginModule(Parcord plugin, ParManager parManager, FileManager fileManager, JDAManager jdaManager, ConfigFile configFile) {
         this.plugin = plugin;
 
         this.parManager = parManager;
         this.fileManager = fileManager;
+        this.jdaManager = jdaManager;
 
         this.configFile = configFile;
     }
@@ -41,6 +46,8 @@ public class PluginModule extends AbstractModule {
 
         bind(ParManager.class).toInstance(parManager);
         bind(FileManager.class).toInstance(fileManager);
+
+        bind(JDAManager.class).toInstance(jdaManager);
 
         bind(ConfigFile.class).toInstance(configFile);
 

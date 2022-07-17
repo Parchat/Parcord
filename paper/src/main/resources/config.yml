@@ -1,5 +1,7 @@
 settings:
   language-file: "locale-en.yml"
+  # Sets whether metrics are enabled or not.
+  metrics-enabled: true
   # Your bot token.
   token: " "
   guild-settings:

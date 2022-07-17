@@ -58,7 +58,7 @@ public class CustomFile {
 
         newFile.mkdirs();
 
-        if (this.loggable) parcord.getLogger().info("The folder " + homeFolder + "/ was not found so it was created.");
+        if (loggable) parcord.getLogger().info("The folder " + homeFolder + "/ was not found so it was created.");
 
         file = null;
     }
@@ -98,7 +98,7 @@ public class CustomFile {
         try {
             file.save(blankFile);
 
-            if (this.loggable) parcord.getLogger().info("Saved " + fileName + ".");
+            if (loggable) parcord.getLogger().info("Saved " + fileName + ".");
 
             return true;
         } catch (Exception e) {
@@ -109,7 +109,7 @@ public class CustomFile {
             }
         }
 
-        if (this.loggable) parcord.getLogger().warning("There was a null custom file that could not be found!");
+        if (loggable) parcord.getLogger().warning("There was a null custom file that could not be found!");
 
         return false;
     }
@@ -122,7 +122,7 @@ public class CustomFile {
         try {
             file = YamlConfiguration.loadConfiguration(blankFile);
 
-            if (this.loggable) parcord.getLogger().info("Reloaded " + fileName + ".");
+            if (loggable) parcord.getLogger().info("Reloaded " + fileName + ".");
         } catch (Exception e) {
             parcord.getLogger().warning("Could not save " + fileName + "!");
 
@@ -131,7 +131,7 @@ public class CustomFile {
             }
         }
 
-        if (this.loggable) parcord.getLogger().warning("There was a null custom file that could not be found!");
+        if (loggable) parcord.getLogger().warning("There was a null custom file that could not be found!");
 
         return false;
     }

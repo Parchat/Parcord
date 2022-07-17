@@ -4,10 +4,12 @@ import net.parchat.parcord.paper.api.FileManager;
 import net.parchat.parcord.paper.api.ParManager;
 import net.parchat.parcord.paper.api.config.ConfigFile;
 import net.parchat.parcord.paper.handlers.PluginModule;
+import net.parchat.parcord.paper.handlers.discord.JDAManager;
 import net.parchat.parcord.paper.handlers.modules.ConfigModule;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
 import net.parchat.parcord.paper.handlers.modules.JDAModule;
+import net.parchat.parcord.paper.handlers.modules.MetricsModule;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Parcord extends JavaPlugin {
@@ -22,6 +24,10 @@ public class Parcord extends JavaPlugin {
 
     @Inject private JDAModule jdaModule;
 
+    @Inject private MetricsModule metricsModule;
+
+    @Inject private JDAManager jdaManager;
+
     @Inject private FileManager fileManager;
 
     @Inject private ConfigFile configFile;
@@ -35,7 +41,9 @@ public class Parcord extends JavaPlugin {
 
             configFile = new ConfigFile();
 
-            PluginModule module = new PluginModule(this, parManager, fileManager, configFile);
+            jdaManager = new JDAManager();
+
+            PluginModule module = new PluginModule(this, parManager, fileManager, jdaManager, configFile);
 
             injector = module.createInjector();
 
@@ -47,9 +55,12 @@ public class Parcord extends JavaPlugin {
 
             configModule.enable();
 
+            metricsModule.enable();
+
             parManager.load();
 
             // Load the bot.
+
             jdaModule.enable();
         } catch (Exception e) {
             getLogger().severe(e.getMessage());

@@ -1,4 +1,4 @@
-package net.parchat.parcord.paper.api.jda;
+package net.parchat.parcord.paper.handlers.discord.listeners;
 
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 
